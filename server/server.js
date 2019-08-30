@@ -4,7 +4,7 @@ const cors = require('cors');
 //* MongoDB
 const mongoose = require('mongoose');
 //* GraphQL
-const { graphqlPath, graphql } = require('./graphql/gqlMaster');
+const schema = require('./schema');
 
 //! Deploy 할 때 주석 제거
 // const path = require('path');
@@ -14,7 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(graphqlPath, graphql);
+app.use('/graphql', schema);
 
 //! Deploy 할 때 주석 제거
 // app.use(express.static('./../public'));

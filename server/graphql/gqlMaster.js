@@ -1,13 +1,11 @@
 const graphqlHTTP = require('express-graphql');
-const graphQlSchema = require('./schemas/user');
-// import graphQlResolvers from './resolvers/index';
+const graphqlSchema = require('./schemas/user');
 
 const graphqlPath = '/graphql';
 
 const graphql = graphqlHTTP({
-  schema: graphQlSchema,
-  // rootValue: graphQlResolvers,
-  graphiql: true
+  schema: graphqlSchema,
+  graphiql: false
 });
 
 module.exports = { graphql, graphqlPath };

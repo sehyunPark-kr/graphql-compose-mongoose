@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const { composeWithMongoose } = require('graphql-compose-mongoose');
 
-const { Schema } = mongoose;
+////-----------------------------------------------------------------
 
-const schema = new Schema({
+const SchemaClass = mongoose.Schema;
+const UserSchema = new SchemaClass({
   email: {
     type: String,
     required: true
@@ -13,10 +15,16 @@ const schema = new Schema({
   },
   createdEvents: [
     {
-      type: Schema.Types.ObjectId,
+      type: SchemaClass.Types.ObjectId,
       ref: 'Event'
     }
   ]
 });
+const User = mongoose.model('User', UserSchema);
 
-module.exports = mongoose.model('User', schema);
+const customizationOptions = {};
+const UserTC = composeWithMongoose(User, customizationOptions);
+
+////-----------------------------------------------------------------
+
+module.exports = { User, UserTC };

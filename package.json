@@ -8,19 +8,33 @@
   },
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^4.1.2"
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/plugin-transform-flow-strip-types": "^7.4.4",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-flow": "^7.0.0",
+    "babel-node": "0.0.1-security",
+    "concurrently": "^4.1.2",
+    "nodemon": "^1.19.1"
   },
   "devDependencies": {
+    "@types/babel-core": "^6.25.6",
+    "@types/mongodb-memory-server": "^1.8.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.3",
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "mongodb-memory-server": "^5.2.0",
     "prettier-eslint": "^9.0.0"
   },
   "scripts": {
-    "server": "npm start --prefix server",
+    "server": "nodemon ./server/server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   }

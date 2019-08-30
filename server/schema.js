@@ -1,77 +1,42 @@
-// https://github.com/r-spacex/SpaceX-API
-// https://docs.spacexdata.com/?version=latest
-const {
-  GraphQLObjectType,
-  GraphQLBoolean,
-  GraphQLString,
-  GraphQLList,
-  GraphQLSchema
-} = require('graphql');
-const axios = require('axios');
+// SINGLE SCHEMA ON SERVER
+// import { schemaComposer  } from 'graphql-compose';
 
-// Rocket Type
-const RocketType = new GraphQLObjectType({
-  name: 'Rocket',
-  fields: () => ({
-    rocket_id: { type: GraphQLString },
-    rocket_name: { type: GraphQLString },
-    rocket_type: { type: GraphQLString }
-  })
+// MULTI SCHEMA MODE IN ONE SERVER
+// import { schemaComposer  } from 'graphql-compose';
+// const schemaComposer  = new schemaComposer ();
+
+// eslint-disable-next-line no-unused-vars
+const graphqlHTTP = require('express-graphql');
+const { schemaComposer } = require('graphql-compose');
+const { UserTC } = require('./models/user');
+const { EventTC } = require('./models/event');
+
+//* STEP 3: Add needed CRUD User operations to the GraphQL Schema
+schemaComposer.Query.addFields({
+  eventById: EventTC.getResolver('findById'),
+  eventOne: EventTC.getResolver('findOne'),
+  eventMany: EventTC.getResolver('findMany'),
+  eventTotal: EventTC.getResolver('count'),
+
+  userById: UserTC.getResolver('findById'),
+  userOne: UserTC.getResolver('findOne'),
+  userMany: UserTC.getResolver('findMany'),
+  userTotal: UserTC.getResolver('count')
 });
 
-// LaunchType
-const LaunchType = new GraphQLObjectType({
-  name: 'Launch',
-  fields: () => ({
-    flight_number: { type: GraphQLString },
-    mission_name: { type: GraphQLString },
-    launch_year: { type: GraphQLString },
-    launch_date_local: { type: GraphQLString },
-    launch_success: { type: GraphQLBoolean },
-    rocket: { type: RocketType }
-  })
+schemaComposer.Mutation.addFields({
+  userCreate: UserTC.getResolver('createOne'),
+  userUpdateOne: UserTC.getResolver('updateOne'),
+  userRemoveById: UserTC.getResolver('removeById'),
+
+  eventCreate: EventTC.getResolver('createOne'),
+  eventUpdateOne: EventTC.getResolver('updateOne'),
+  eventRemoveById: EventTC.getResolver('removeById')
 });
 
-// Root Query
-const RootQuery = new GraphQLObjectType({
-  name: 'RootQueryType',
-  fields: {
-    launches: {
-      type: new GraphQLList(LaunchType),
-      resolve() {
-        return axios
-          .get('https://api.spacexdata.com/v3/launches')
-          .then((res) => res.data);
-      }
-    },
-    launch: {
-      type: LaunchType,
-      args: {
-        flight_number: { type: GraphQLString }
-      },
-      resolve(parent, args) {
-        return axios
-          .get(`https://api.spacexdata.com/v3/launches/${args.flight_number}`)
-          .then((res) => res.data);
-      }
-    }
-  }
+const graphql = graphqlHTTP({
+  schema: schemaComposer.buildSchema(),
+  graphiql: true
 });
 
-// const RootMutation = new GraphQLObjectType({
-//   name: 'RootMutationType',
-//   fields: {
-//     createLaunch(launch: LaunchType): {
-//       type: new GraphQLList(LaunchType),
-//       resolve() {
-//         return axios
-//           .get('https://api.spacexdata.com/v3/launches')
-//           .then((res) => res.data);
-//       }
-//     }
-//   }
-// });
-
-module.exports = new GraphQLSchema({
-  query: RootQuery
-});
+module.exports = graphql;

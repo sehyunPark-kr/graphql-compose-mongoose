@@ -4,7 +4,7 @@ const cors = require('cors');
 //* MongoDB
 const mongoose = require('mongoose');
 //* GraphQL
-const schema = require('./schema');
+const schema = require('./db/schema');
 
 //! Deploy 할 때 주석 제거
 // const path = require('path');

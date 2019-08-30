@@ -1,0 +1,40 @@
+REST API
+: 데이터를 교환하기위해 클라이언트에 의존적인 API. Stateless
+
+ref
+https://medium.com/@dydrlaks/rest-api-3e424716bab
+https://gmlwjd9405.github.io/2018/09/21/rest-and-restful.html
+
+------------------------------------------------------------------------
+
+GraphQL API
+: 데이터를 교환하기위해 클라이언트에 의존적인 API지만 더 유연하고 효율적인 쿼리로 데이터를 교환할 수 있는 API. Stateless
+
+------------------------------------------------------------------------
+
+REST API로 리소스의 특정 데이터만 다루고 싶다면?
+1. 새로운 EndPoint(메소드)를 정의해야한다. -> 많은 EndPoint가 생성될 문제가 있음. 
+2. Query Parameter를 사용한다. -> 복잡하고 유연하지 못한 API가 될 문제가 있음. 
+=> GraphQL API를 사용한다.
+
+------------------------------------------------------------------------
+
+GraphQL API는 어떻게 하는가?
+1. 반환되어야할 데이터를 정의하는 쿼리 표현식으로 요청한다.
+2. 하나의 EndPoint(Post/graphql)로 처리한다.
+
+쿼리 표현식 예시:
+  query {           <- Operation type (요청 타입)
+    user {          <- Operation "endpoint" (endpoint)
+      name          <- Requested fields (반환되어야할 데이터)
+      age
+    }
+  }
+
+  Operation type
+  1. Query : Retrieve Data ("GET")
+  2. Mutation : Manipulate Data ("POST", "PUT", "PATCH", "DELETE")
+  3. Subscription : Set up realtime connection via Websockets
+
+
+하나의 Endpoint로 요청을 받아 Route와 같이 요청을 분리하고 그 것을 Resolver로 전송해 처리하는 방식

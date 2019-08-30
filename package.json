@@ -1,0 +1,27 @@
+{
+  "name": "mongodb-graphql-react",
+  "version": "0.1.0",
+  "description": "f- react, react-router, apollo, etc... /  b- graphql, wordpress, etc...",
+  "author": {
+    "name": "sehyunPark-kr",
+    "email": "rhflseh92@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^4.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "prettier-eslint": "^9.0.0"
+  },
+  "scripts": {
+    "server": "npm start --prefix server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  }
+}
